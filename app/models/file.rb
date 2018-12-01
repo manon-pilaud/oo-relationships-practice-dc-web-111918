@@ -1,3 +1,5 @@
+#------------------------BEGIN LISTING CLASS--------------------------------------
+
 class Listing
   attr_accessor :city
 
@@ -41,12 +43,20 @@ class Listing
 
   def self.most_popular
     # finds the listing that has had the most trips
+    listing_hash = {}
+    Trip.all.each do |trip|
+      if listing_hash[trip.listing]
+        listing_hash[trip.listing] += 1
+      else
+        listing_hash[trip.listing] = 1
+      end
+    end
+    listing_hash.sort_by{|k,v| v}[-1][0]
   end
-
-
 
 end
 
+#------------------------BEGIN TRIP CLASS--------------------------------------
 
 class Trip
   attr_accessor :guest, :listing
@@ -64,6 +74,7 @@ class Trip
   end
 end
 
+#------------------------BEGIN GUEST CLASS--------------------------------------
 
 
 class Guest
@@ -108,8 +119,18 @@ class Guest
   end
 
   def self.pro_traveller
-    # - returns an array of all guests who have made over 1 trip
+    guest_hash = {}
+    Trip.all.each do |trip|
+      if guest_hash[trip.guest]
+        guest_hash[trip.guest] +=1
+      else
+        guest_hash[trip.guest] =1
+      end
+    end
+    new_hash = guest_hash.select{|k,v| v>1}
+    new_hash.keys
   end
+
   def self.find_all_by_name(name)
     Guest.all.select do |guest|
       guest.name == name
