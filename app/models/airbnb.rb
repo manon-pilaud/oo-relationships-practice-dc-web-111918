@@ -43,17 +43,7 @@ class Listing
 
   def self.most_popular
     # finds the listing that has had the most trips
-    listing_hash = {}
-    Trip.all.each do |trip|
-      if listing_hash[trip.listing]
-        listing_hash[trip.listing] += 1
-      else
-        listing_hash[trip.listing] = 1
-      end
-    end
-    listing_hash.sort_by{|k,v| v}[-1][0]
   end
-
 end
 
 #------------------------BEGIN TRIP CLASS--------------------------------------
